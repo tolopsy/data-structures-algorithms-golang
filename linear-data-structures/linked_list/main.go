@@ -18,24 +18,56 @@ func (l *LinkedList) prepend(value int) {
 }
 
 
-func (l LinkedList) PrintList() {
-	picker := l.head
-	fmt.Print("Start ")
-	for picker != nil {
-		fmt.Printf("-> %d ", picker.data)
-		picker = picker.next
+func (l *LinkedList) getLastNode() *Node {
+	var lastNode *Node
+	for picker := l.head; picker != nil; picker = picker.next {
+		if picker.next == nil {
+			lastNode = picker
+			break
+		}
 	}
+	return lastNode
 }
+
+
+func (l *LinkedList) addToEnd(value int) {
+	lastNode := l.getLastNode()
+	newNode := &Node{data: value}
+	if lastNode != nil {
+		lastNode.next = newNode
+	}
+
+}
+
+
+func (l LinkedList) PrintList() {
+	for picker := l.head; picker != nil; picker = picker.next {
+		fmt.Printf("%d -> ", picker.data)
+	}
+
+	fmt.Println("end")
+}
+
 
 func main() {
 	newList := LinkedList{}
-	node1 := 7
-	node2 := 5
-	node3 := 9
-	node4 := 2
-	newList.prepend(node1)
-	newList.prepend(node2)
-	newList.prepend(node3)
-	newList.prepend(node4)
-	newList.PrintList()
+
+	value1 := 7
+	newList.prepend(value1)
+	newList.PrintList() // 7
+	fmt.Printf("The last value is %v \n", newList.getLastNode())
+
+	value2 := 5
+	newList.prepend(value2)
+	newList.PrintList()  // 5 -> 7
+
+	value3 := 3
+	newList.prepend(value3)
+	newList.PrintList() // 3 -> 5 -> 7
+
+	value4 := 2
+	newList.addToEnd(value4)
+	newList.PrintList() // 3 -> 5 -> 7 -> 2
+
+	fmt.Printf("The last node is %v \n", newList.getLastNode())
 }
